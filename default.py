@@ -13,9 +13,11 @@ import xbmcplugin
 import xbmcgui
 import xbmcaddon
 
-addon = xbmcaddon.Addon()
+#addon = xbmcaddon.Addon()
+#addonID = addon.getAddonInfo('id')
+addonID = 'plugin.video.vevo_tv'
+addon = xbmcaddon.Addon(id=addonID)
 pluginhandle = int(sys.argv[1])
-addonID = addon.getAddonInfo('id')
 socket.setdefaulttimeout(30)
 opener = urllib2.build_opener()
 xbox = xbmc.getCondVisibility("System.Platform.xbox")
@@ -150,7 +152,7 @@ def playOfficial(id):
         matchPlaypath = re.compile('<video src="(.+?)" system-bitrate="(.+?)" />', re.DOTALL).findall(content)
         for url, bitrate in matchPlaypath:
             if int(bitrate) <= int(bitrateOfficial):
-                fullUrl = matchBase[0]+" playpath="+url
+                fullUrl = matchBase[0]+" playpath="+url+" swfUrl="+urlMain+"/swf/videoplayer.swf swfVfy=true live=true"
         listitem = xbmcgui.ListItem(path=fullUrl)
         xbmcplugin.setResolvedUrl(pluginhandle, True, listitem)
     else:
